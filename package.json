@@ -20,6 +20,8 @@
     "dependencies": {
         "@mdi/font": "^5.8.55",
         "vue": "^2.6.12",
-        "vuetify": "^2.3.20"
+        "vue-router": "^3.4.9",
+        "vuetify": "^2.3.20",
+        "vuex": "^3.6.0"
     }
 }

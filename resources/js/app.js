@@ -1,4 +1,6 @@
 import vuetify from "./vuetify";
+import router from "./router";
+import store from "./store";
 
 require('./bootstrap');
 
@@ -9,4 +11,6 @@ Vue.component('app', require('./components/App.vue').default);
 const app = new Vue({
     el: '#app',
     vuetify,
+    router,
+    store,
 });
