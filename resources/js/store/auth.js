@@ -70,6 +70,7 @@ const mutations = {
         state.user = user;
     },
     SET_ROLES(state, roles) {
+        console.log('Roles', roles);
         state.roles = roles;
         localStorage.setItem('roles', JSON.stringify(roles));
     },

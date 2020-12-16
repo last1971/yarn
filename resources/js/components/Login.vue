@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-main>
         <v-container fill-height justify-center>
             <v-flex class="login-form text-xs-center">
                 <v-card class="elevation-12">
@@ -67,7 +67,7 @@
                 </v-card>
             </v-flex>
         </v-container>
-    </v-content>
+    </v-main>
 </template>
 
 <script>
@@ -91,16 +91,15 @@ export default {
     methods: {
         async login() {
             this.loginLoading = true;
-            /*this.$store.dispatch('AUTH/LOGIN', this.user)
-                .then(() => {
-                    this.user.login = '';
-                    this.user.password = '';
-                    this.$router.back()
-                })
-                .catch((error) => {
-                    this.error = error.response.data.errors;
-                })
-                .then(() => this.loginLoading = false);*/
+            try {
+                await this.$store.dispatch('AUTH/LOGIN', this.user)
+                this.user.login = '';
+                this.user.password = '';
+                this.$router.push({ name: 'user' });
+            } catch (error) {
+                this.error = error.response.data.errors || {};
+            }
+            this.loginLoading = false;
         },
         forgot() {
             this.forgotLoading = true;

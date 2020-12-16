@@ -15,7 +15,7 @@ class UserAddAvatar extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('avatar')->default('avatar/default.jpg');
+            $table->string('avatar')->default('default.jpg');
         });
     }
 

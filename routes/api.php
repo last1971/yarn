@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('refresh-user', [AuthController::class, 'refresh'])->name('refresh');
+    Route::post('avatar-upload', [UserController::class, 'avatarUpload'])->name('avatar-upload');
+    Route::post('picture-upload', [ArticleController::class, 'picture'])->name('picture-upload');
+
+    Route::apiResources([
+        'article' => ArticleController::class,
+    ]);
 });
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+

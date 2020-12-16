@@ -19,5 +19,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    dd(public_path('avatar'));
+   \App\Models\Article::query()->create(['name' => 'Тестирование задания']);
 })->purpose('Test');

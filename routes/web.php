@@ -13,9 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/avatar/{size}/{avatar}', function (int $size, string $avatar) {
+    $path = Storage::exists('public/avatars/' . $avatar )
+        ? 'avatars/' . $avatar
+        : 'avatars/default.png';
+    return Image::make(public_path($path))->resize($size, $size)->response();
+});
+
+Route::get('/picture/{article}/{picture}', function(string $article, string $picture) {
+    $path = Storage::exists('public/articles/' . $article . '/' . $picture)
+        ? 'articles/' . $article . '/' . $picture
+        : 'articles/default.png';
+    return Image::make(public_path($path))->response();
+});
+
 Route::get('/{path?}', function () {
     return view('app');
 });
 Route::get('/{path?}/{id?}', function () {
     return view('app');
 });
+
