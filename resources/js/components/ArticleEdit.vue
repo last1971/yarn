@@ -5,8 +5,14 @@
         </v-card-title>
         <v-card-text>
             <v-row>
+                <article-select v-model="articleId"/>
+            </v-row>
+            <v-row>
                 <v-col>
-                    <v-text-field label="Уникальное название статьи"   v-model="article.name"/>
+                    <v-text-field label="Уникальное название статьи"
+                                  v-model="article.name"
+                                  :error-messages="errors.name"
+                    />
                 </v-col>
             </v-row>
             <v-row>
@@ -20,15 +26,15 @@
             </v-row>
         </v-card-text>
         <v-card-actions>
-            <v-btn rounded color="primary">
-                <v-icon
-                    left
-                    dark
-                    color="success"
-                >
-                    mdi-content-save
-                </v-icon>
+            <v-btn rounded color="success" :disabled="saveNotPossible" @click="save" :loading="isSaving">
+                <v-icon left>mdi-content-save</v-icon>
                 Сохранить
+            </v-btn>
+            <v-btn rounded color="danger" @click="cancel">
+                <v-icon left>
+                    mdi-close
+                </v-icon>
+                Отменить
             </v-btn>
         </v-card-actions>
     </v-card>
@@ -38,13 +44,15 @@
 import { VueEditor, Quill } from "vue2-editor";
 import ImageResize from 'quill-image-resize-vue';
 import { ImageDrop } from "quill-image-drop-module";
+import ArticleSelect from "./ArticleSelect";
+import _ from "lodash";
 
 Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/imageResize", ImageResize);
 
 export default {
     name: "ArticleEdit",
-    components: { VueEditor },
+    components: {ArticleSelect, VueEditor },
     data() {
         return {
             article: {
@@ -53,12 +61,25 @@ export default {
                 picture_id: null,
                 content: null,
             },
+            articleId: null,
             editorSettings: {
                 modules: {
                     imageDrop: true,
                     imageResize: {},
                 }
-            }
+            },
+            isSaving: false,
+            errors: {},
+        }
+    },
+    computed: {
+        saveNotPossible() {
+            return _.isEqual(this.$store.getters['ARTICLE/GET'](this.articleId), this.article) || !this.articleId;
+        }
+    },
+    watch: {
+        articleId(val) {
+            this.article = _.cloneDeep(this.$store.getters['ARTICLE/GET'](val));
         }
     },
     methods: {
@@ -66,7 +87,7 @@ export default {
 
             const formData = new FormData();
             formData.append("picture", file);
-            formData.append("slug", "test");
+            formData.append("slug", this.article.slug);
 
             axios.post(
                 '/api/picture-upload',
@@ -80,6 +101,20 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+        cancel() {
+            this.article = _.cloneDeep(this.$store.getters['ARTICLE/GET'](this.articleId))
+        },
+        async save() {
+            this.isSaving = true;
+            const { article } = this;
+            try {
+                await this.$store.dispatch('ARTICLE/UPDATE', article);
+                this.cancel();
+            } catch (e) {
+                this.errors = e.response.data.errors;
+            }
+            this.isSaving = false;
         }
     }
 }

@@ -6,6 +6,7 @@ import User from "../components/User";
 import NotFound from "../components/404";
 import ArticleEdit from "../components/ArticleEdit";
 
+
 Vue.use(VueRouter);
 
 const routes = [

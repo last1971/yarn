@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ArticleRequest extends FormRequest
 {
@@ -23,9 +24,15 @@ class ArticleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|string',
-            'content' => 'text'
-        ];
+        if ($this->route()->getName() === 'article.store') {
+            return [ 'name' => 'required|string|unique:articles' ];
+        } else {
+            $article = $this->route()->parameters['article'];
+            return
+                [
+                    'name' => ['string', Rule::unique('articles')->ignore($article)],
+                    'content' => 'string|nullable'
+                ];
+        }
     }
 }

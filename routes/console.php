@@ -19,5 +19,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-   \App\Models\Article::query()->create(['name' => 'Тестирование задания']);
+    if (!Storage::disk('public')->exists('articles/test1')) {
+        Storage::disk('public')->makeDirectory('articles/test1' );
+    }
 })->purpose('Test');

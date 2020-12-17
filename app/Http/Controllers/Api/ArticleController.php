@@ -7,13 +7,13 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\PictureRequest;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Image;
+use Storage;
 
 class ArticleController extends Controller
 {
@@ -33,9 +33,9 @@ class ArticleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ArticleRequest $request
-     * @return Builder|Model|Response
+     * @return Model
      */
-    public function store(ArticleRequest $request): Response
+    public function store(ArticleRequest $request): Model
     {
         return Article::query()->create($request->validated());
     }
@@ -56,11 +56,12 @@ class ArticleController extends Controller
      *
      * @param Request $request
      * @param  int  $id
-     * @return Response
+     * @return Model
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, Article $article): Model
     {
-        //
+        $article->update($request->validated());
+        return $article;
     }
 
     /**
@@ -77,6 +78,9 @@ class ArticleController extends Controller
     public function picture(PictureRequest $request): JsonResponse
     {
         $file = $request->file('picture');
+        if (!Storage::disk('public')->exists('articles/' . $request->get('slug'))) {
+            Storage::disk('public')->makeDirectory('articles/' . $request->get('slug'));
+        }
         $name = 'articles/' . $request->get('slug') . '/' . Str::uuid() . '.' . $file->getClientOriginalExtension();
         Image::make($file)->save(public_path($name));
         return response()->json([ 'src' => '/' . $name]);
