@@ -24,6 +24,13 @@ class PictureRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->route()->getName() === 'picture.store') {
+            return [
+                'picture' => 'required|image',
+                'model' => 'required|string',
+                'id' =>'required|uuid',
+            ];
+        }
         return [
             'picture' => 'required|image',
             'slug' => 'required|string'

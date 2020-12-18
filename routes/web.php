@@ -27,10 +27,21 @@ Route::get('/picture/{article}/{picture}', function(string $article, string $pic
     return Image::make(public_path($path))->response();
 });
 
+Route::get('/picture/{slug}/{id}/{picture}', function(string $slug, string $id, string $picture) {
+    $path = Storage::exists('public/pictures/' . $slug . '/' . $id . '/' . $picture)
+        ? 'pictures/' . $slug . '/' . $id . '/' . $picture
+        : 'articles/default.png';
+    return Image::make(public_path($path))->response();
+});
+
 Route::get('/{path?}', function () {
     return view('app');
 });
 Route::get('/{path?}/{id?}', function () {
+    return view('app');
+});
+
+Route::get('/{path?}/{slug?}/{id?}', function () {
     return view('app');
 });
 

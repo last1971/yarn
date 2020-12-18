@@ -16,7 +16,7 @@ const getters = {
             ? state.items.filter(
                 (item) => id.indexOf(state.keyType === Number ? parseInt(item[state.key]) : item[state.key]) >= 0
             )
-            : _.find(state.items, {[state.key]: state.keyType === Number ? parseInt(id) : id})
+            : _.find(state.items, {[state.key]: state.keyType === Number ? parseInt(id) : id}) || null
     },
     ALL: state => state.items,
     FILLABLE: state => state.fillable,

@@ -20,7 +20,8 @@ const app = new Vue({
         if (this.$store.getters['AUTH/IS_LOGGEDIN']) {
             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
             try {
-                await this.$store.dispatch('AUTH/REFRESH')
+                await this.$store.dispatch('AUTH/REFRESH');
+                //await this.$store.dispatch('CATEGORY/GET', '49556882-feb9-4404-ba4b-babb0de83b06');
             } catch (e) {
                 this.$router.push({name: 'login'});
             }
