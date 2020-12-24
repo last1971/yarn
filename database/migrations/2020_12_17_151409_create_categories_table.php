@@ -23,6 +23,7 @@ class CreateCategoriesTable extends Migration
             $table->nestedSet();
             $table->timestamps();
             $table->foreign('picture_id')->references('id')->on('pictures');
+            $table->foreign('article_id')->references('id')->on('articles');
         });
     }
 

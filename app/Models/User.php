@@ -46,6 +46,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $avatar
+ * @method static Builder|User whereAvatar($value)
  */
 class User extends Authenticatable
 {

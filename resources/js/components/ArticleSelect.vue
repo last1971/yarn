@@ -102,10 +102,10 @@ export default {
         }, 1000),
         name() {
             this.errors = {};
+        },
+        async value(val) {
+            if (val) await this.getItem(val);
         }
-    },
-    async created() {
-        if (this.value) await this.getItem(this.value);
     },
     methods: {
         async getItems(name = '') {
@@ -117,6 +117,7 @@ export default {
         async getItem(id) {
             this.isLoading = true;
             await this.$store.dispatch(this.model + '/CACHE', id);
+            this.itemIds.push(id);
             this.isLoading = false;
         },
         close() {

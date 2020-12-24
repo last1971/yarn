@@ -18,12 +18,15 @@ const state = {
     permissions: localStorage.getItem('permissions') ? JSON.parse(localStorage.getItem('permissions')) : [],
     options: {},
     localOptions: JSON.parse(localStorage.getItem('options')) || {},
+    editMode: false,
 };
 
 const getters = {
     AUTH_STATUS: state => state.status,
     IS_GUEST: state => state.roles.indexOf('guest') >= 0 && state.roles.length === 1,
     IS_LOGGEDIN: state => !!state.token,
+    IS_ADMIN: state => state.roles.indexOf('admin') >= 0,
+    'EDIT-MODE': state => state.editMode,
     GET: state => state.user,
     LOCAL_OPTION: state => key => state.localOptions[key],
     PERMISSIONS: state => state.permissions,
@@ -57,6 +60,9 @@ const mutations = {
         localStorage.removeItem('options');
         state.localOptions = {};
 
+    },
+    'EDIT-MODE-TOGGLE'(state) {
+        state.editMode = !state.editMode;
     },
     LOGOUT(state) {
         state.status = '';

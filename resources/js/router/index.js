@@ -4,17 +4,24 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import User from "../components/User";
 import NotFound from "../components/404";
-import ArticleEdit from "../components/ArticleEdit";
 import Category from "../components/Category";
+import Categories from "../components/Categories";
+import Producers from "../components/Producers";
+import Producer from "../components/Producer";
 
 
 Vue.use(VueRouter);
 
 const routes = [
     {
-        name: 'article-edit',
-        path: '/article-edit',
-        component: ArticleEdit,
+        name: 'home',
+        path: '/',
+        component: Categories,
+    },
+    {
+        name: 'categories',
+        path: '/category',
+        component: Categories,
     },
     {
         name: 'category',
@@ -25,6 +32,16 @@ const routes = [
         name: 'login',
         path: '/login',
         component: Login
+    },
+    {
+        name: 'producers',
+        path: '/producer',
+        component: Producers,
+    },
+    {
+        name: 'producer',
+        path: '/producer/:slug/:id',
+        component: Producer,
     },
     {
         name: 'register',

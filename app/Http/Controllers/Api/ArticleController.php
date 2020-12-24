@@ -43,12 +43,12 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Article $article
+     * @return Article
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        //
+        return $article;
     }
 
     /**

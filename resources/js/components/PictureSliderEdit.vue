@@ -1,19 +1,25 @@
 <template>
-    <v-main>
+    <v-container>
         <v-row>
             <v-col>
-                <v-carousel>
+                <v-carousel v-model="pictureIndex">
                     <v-carousel-item v-for="picture in pictures"
                                      :key="picture.id"
                                      :src="picture.src"
                                      :alt="picture.name"
-                    />
+                    >
+                        <div v-if="value.picture_id !== picture.id && editMode">
+                            <v-btn icon @click="destroy(picture)">
+                                <v-icon color="error">mdi-delete</v-icon>
+                            </v-btn>
+                            <v-btn icon @click="setMain(picture)">
+                                <v-icon color="success">mdi-home-floor-1</v-icon>
+                            </v-btn>
+                        </div>
+                    </v-carousel-item>
                 </v-carousel>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col>
                 <v-file-input
+                    v-if="editMode"
                     accept="image/*"
                     label="Добавить картинку"
                     placeholder="Выбрать файл"
@@ -22,19 +28,22 @@
                 />
             </v-col>
         </v-row>
-    </v-main>
+    </v-container>
 </template>
 
 <script>
+import isAdmin from "../mixins/isAdmin";
+
 export default {
     name: "PictureSliderEdit",
+    mixins: [isAdmin],
     props: {
         value: { type: Object },
         model: { type: String },
     },
     data() {
         return {
-
+            pictureIndex: 0,
         };
     },
     computed: {
@@ -65,9 +74,27 @@ export default {
                 const newValue = _.cloneDeep(this.value);
                 newValue.pictures.push(response.data);
                 this.$store.commit(_.toUpper(this.model) + '/UPDATE', newValue);
+                this.pictureIndex = newValue.pictures.length - 1;
             } catch (e) {
                 console.log(e);
             }
+        },
+        async destroy(picture) {
+            const { id } = picture;
+            try {
+                await axios.delete(`/api/picture/${id}`);
+                const newValue = _.cloneDeep(this.value);
+                const index = _.findIndex(newValue.pictures, { id });
+                newValue.pictures.splice(index, 1);
+                this.$store.commit(_.toUpper(this.model) + '/UPDATE', newValue);
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async setMain(picture) {
+            const newValue = _.cloneDeep(this.value);
+            newValue.picture_id = picture.id;
+            await this.$store.dispatch(_.toUpper(this.model) + '/UPDATE', newValue);
         }
     }
 }

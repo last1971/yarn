@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PictureController;
+use App\Http\Controllers\Api\ProducerController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::middleware('auth:api')->group(function () {
         'article' => ArticleController::class,
         'category' => CategoryController::class,
         'picture' => PictureController::class,
+        'producer' => ProducerController::class,
+        'product' => \App\Http\Controllers\Api\ProductController::class,
     ]);
 });
 

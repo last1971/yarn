@@ -53,6 +53,9 @@ Quill.register("modules/imageResize", ImageResize);
 export default {
     name: "ArticleEdit",
     components: {ArticleSelect, VueEditor },
+    props: {
+        value: { type: String },
+    },
     data() {
         return {
             article: {
@@ -79,7 +82,28 @@ export default {
     },
     watch: {
         articleId(val) {
-            this.article = _.cloneDeep(this.$store.getters['ARTICLE/GET'](val));
+            const clearVal = _.isEmpty(val) ? '' : val;
+            if (val !== this.article.id) {
+                this.article = _.cloneDeep(this.$store.getters['ARTICLE/GET'](val)) || {
+                    id: null,
+                    name: null,
+                    picture_id: null,
+                    content: null,
+                };
+                if (val !== this.value) this.$emit('input', clearVal);
+            }
+        },
+        value(val) {
+            if (val) {
+                this.$store.dispatch('ARTICLE/CACHE', val).then(() => this.articleId = val);
+            }
+        }
+    },
+    created() {
+        if (this.value) {
+            this.$store.dispatch('ARTICLE/CACHE', this.value).then(() => {
+                this.articleId = this.value;
+            });
         }
     },
     methods: {
