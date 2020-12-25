@@ -118,6 +118,7 @@ export default {
             menus: [
                 { id: 1, text: 'Категории', to: {name: 'categories'}, icon: 'mdi-shape'},
                 { id: 2, text: 'Производители', to: {name: 'producers'}, icon: 'mdi-professional-hexagon'},
+                { id: 3, text: 'Продукты', to: {name: 'products'}, icon: 'mdi-approximately-equal-box'},
             ],
         }
     },

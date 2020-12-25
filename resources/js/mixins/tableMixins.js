@@ -59,9 +59,15 @@ export default {
     },
     methods: {
         async reload() {
-            const response = await this.$store.dispatch(`${this.MODEL}/ALL`, this.proxyOptions);
-            this.itemIds = response.itemIds;
-            this.total = response.total;
+            this.loading = true;
+            try {
+                const response = await this.$store.dispatch(`${this.MODEL}/ALL`, this.proxyOptions);
+                this.itemIds = response.itemIds;
+                this.total = response.total;
+            } catch (e) {
+                console.log(e);
+            }
+            this.loading = false;
         }
     }
 }

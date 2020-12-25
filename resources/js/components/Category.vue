@@ -1,9 +1,13 @@
 <template>
     <v-tabs>
-        <v-tab>Подкатегории</v-tab>
+        <v-tab>
+            <span v-if="isLeaf">Товары</span>
+            <span v-else>Подкатегории</span>
+        </v-tab>
         <v-tab>Описание</v-tab>
         <v-tab-item>
-            <categories v-if="instance" :options.sync="options" />
+            <products v-if="isLeaf" :options.sync="productOptions" />
+            <categories v-else-if="instance" :options.sync="categoryOtions" />
         </v-tab-item>
         <v-tab-item>
             <v-container v-if="instance">
@@ -74,16 +78,18 @@ import ArticleShow from "./ArticleShow";
 import isAdmin from "../mixins/isAdmin";
 import Categories from "./Categories";
 import modelMixin from "../mixins/modelMixin";
+import Products from "./Products";
 export default {
     name: "Category",
-    components: {Categories, ArticleShow, ArticleEdit, PictureSliderEdit},
+    components: {Products, Categories, ArticleShow, ArticleEdit, PictureSliderEdit},
     mixins:[isAdmin, modelMixin],
     data() {
         return {
             instanceId: null,
             model: 'CATEGORY',
             proxy: null,
-            options: {}
+            productOptions: {},
+            categoryOtions: {},
         }
     },
     computed: {
@@ -92,19 +98,24 @@ export default {
             const parent = this.$store.getters[this.model + '/GET'](this.instance.parent_id);
             if (!parent) this.$store.dispatch(this.model + '/CACHE', this.instance.parent_id);
             return parent;
+        },
+        isLeaf() {
+            return this.instance ? this.instance._lft + 1 === this.instance._rgt : false;
         }
     },
     methods: {
-        setInstanceId(instanceId) {
-            this.$store.dispatch(this.model + '/CACHE', instanceId)
-                .then(() => {
-                    if (instanceId) {
-                        this.options.whereAttributes = ['parent_id'];
-                        this.options.whereOperators = ['='];
-                        this.options.whereValues = [instanceId];
-                    }
-                    this.instanceId = instanceId;
-                });
+        async setInstanceId(instanceId) {
+            const instance = await this.$store.dispatch(this.model + '/CACHE', instanceId);
+            if (instance._lft + 1 === instance._rgt) {
+                this.productOptions.whereAttributes = ['category_id'];
+                this.productOptions.whereOperators = ['='];
+                this.productOptions.whereValues = [instanceId];
+            } else {
+                this.categoryOtions.whereAttributes = ['parent_id'];
+                this.categoryOtions.whereOperators = ['='];
+                this.categoryOtions.whereValues = [instanceId];
+            }
+            this.instanceId = instanceId;
         },
     },
 }

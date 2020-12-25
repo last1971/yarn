@@ -8,6 +8,8 @@ import Category from "../components/Category";
 import Categories from "../components/Categories";
 import Producers from "../components/Producers";
 import Producer from "../components/Producer";
+import Product from "../components/Product";
+import Products from "../components/Products";
 
 
 Vue.use(VueRouter);
@@ -42,6 +44,16 @@ const routes = [
         name: 'producer',
         path: '/producer/:slug/:id',
         component: Producer,
+    },
+    {
+        name: 'products',
+        path: '/product',
+        component: Products,
+    },
+    {
+        name: 'product',
+        path: '/product/:slug/:id',
+        component: Product,
     },
     {
         name: 'register',

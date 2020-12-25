@@ -48,7 +48,6 @@ export default {
     },
     data() {
         return {
-            addCategory: false,
             model: 'producer'
         }
     },

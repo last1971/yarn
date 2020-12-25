@@ -5,6 +5,7 @@ import snackbar from "./snackbar";
 import article from "./models/article";
 import category from "./models/category";
 import producer from "./models/producer";
+import product from "./models/product";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         AUTH: auth,
         CATEGORY: category,
         PRODUCER: producer,
+        PRODUCT: product,
         SNACKBAR: snackbar,
     }
 });

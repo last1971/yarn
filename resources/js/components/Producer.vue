@@ -3,7 +3,7 @@
         <v-tab>Товары</v-tab>
         <v-tab>Описание</v-tab>
         <v-tab-item>
-            TO DO
+            <products v-if="instance" :options.sync="options"/>
         </v-tab-item>
         <v-tab-item>
             <v-container v-if="instance">
@@ -82,32 +82,30 @@ import ArticleEdit from "./ArticleEdit";
 import PictureSliderEdit from "./PictureSliderEdit";
 import isAdmin from "../mixins/isAdmin";
 import modelMixin from "../mixins/modelMixin";
+import Products from "./Products";
 
 export default {
     name: "Producer",
-    components: {ArticleShow, ArticleEdit, PictureSliderEdit},
+    components: {Products, ArticleShow, ArticleEdit, PictureSliderEdit},
     mixins:[isAdmin,modelMixin],
     data() {
         return {
             instanceId: null,
             model: 'PRODUCER',
             proxy: null,
-            options: {
-                page: 1,
-                itemsPerPage: 10,
-                mustSort: false,
-                multiSort: false,
-                groupBy: [],
-                groupDesc: [],
-                sortBy: [],
-                sortDesc: [],
-            }
+            options: {}
         }
     },
     methods: {
         setInstanceId(instanceId) {
             this.$store.dispatch(this.model + '/CACHE', instanceId)
                 .then(() => {
+                    if (instanceId) {
+                        this.options.whereAttributes = ['producer_id'];
+                        this.options.whereOperators = ['='];
+                        this.options.whereValues = [instanceId];
+                        this.options.page = 1;
+                    }
                     this.instanceId = instanceId;
                 });
         },
