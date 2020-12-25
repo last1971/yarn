@@ -73,41 +73,25 @@ import ArticleEdit from "./ArticleEdit";
 import ArticleShow from "./ArticleShow";
 import isAdmin from "../mixins/isAdmin";
 import Categories from "./Categories";
+import modelMixin from "../mixins/modelMixin";
 export default {
     name: "Category",
     components: {Categories, ArticleShow, ArticleEdit, PictureSliderEdit},
-    mixins:[isAdmin],
+    mixins:[isAdmin, modelMixin],
     data() {
         return {
             instanceId: null,
             model: 'CATEGORY',
             proxy: null,
-            options: {
-                page: 1,
-                itemsPerPage: 10,
-                mustSort: false,
-                multiSort: false,
-                groupBy: [],
-                groupDesc: [],
-                sortBy: [],
-                sortDesc: [],
-            }
+            options: {}
         }
     },
     computed: {
-        instance() {
-            return this.$store.getters[this.model + '/GET'](this.instanceId);
-        },
         parent() {
             if (!this.instance.parent_id) return null;
             const parent = this.$store.getters[this.model + '/GET'](this.instance.parent_id);
             if (!parent) this.$store.dispatch(this.model + '/CACHE', this.instance.parent_id);
             return parent;
-        }
-    },
-    watch: {
-        instance(val) {
-            this.proxy = _.cloneDeep(val);
         }
     },
     methods: {
@@ -122,19 +106,7 @@ export default {
                     this.instanceId = instanceId;
                 });
         },
-        async save() {
-            await this.$store.dispatch(this.model + '/UPDATE', this.proxy)
-        }
     },
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.setInstanceId(to.params.id);
-        });
-    },
-    beforeRouteUpdate (to, from, next) {
-        this.setInstanceId(to.params.id);
-        next();
-    }
 }
 </script>
 

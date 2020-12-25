@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProducerRequest;
 use App\Models\Producer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProducerController extends Controller
 {
@@ -34,31 +34,32 @@ class ProducerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Producer $producer
+     * @return Producer
      */
-    public function show($id)
+    public function show(Producer $producer): Producer
     {
-        //
+        return $producer;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ProducerRequest $request
+     * @param Producer $producer
+     * @return Producer
      */
-    public function update(Request $request, $id)
+    public function update(ProducerRequest $request, Producer $producer): Producer
     {
-        //
+        $producer->update($request->validated());
+        return $producer;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

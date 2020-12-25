@@ -1,9 +1,17 @@
 <template>
     <v-data-iterator :items="items"
-                     :items-per-page="10"
+                     :items-per-page="itemsPerPage"
                      :loading="loading"
                      :options.sync="proxyOptions"
                      :server-items-length="total"
+                     :footer-props="{
+                         itemsPerPageOptions: [
+                             itemsPerPage,
+                             -1
+                         ],
+                         showCurrentPage: true,
+                         showFirstLastPage: true,
+                     }"
     >
         <template v-slot:header v-if="editMode">
             <v-container>
@@ -38,14 +46,6 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    page: 1,
-                    itemsPerPage: 10,
-                    mustSort: false,
-                    multiSort: false,
-                    groupBy: [],
-                    groupDesc: [],
-                    sortBy: [],
-                    sortDesc: [],
                     nullAttributes: ['parent_id']
                 };
             }

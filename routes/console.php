@@ -19,13 +19,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    $models = [ 'category' => \App\Models\Category::class];
-    $model = new $models['category'];
-    dd($model->find('49556882-feb9-4404-ba4b-babb0de83b06'));
-/*
-    $a1 = \App\Models\Category::query()->create(['name' => \Illuminate\Support\Str::random()]);
-    $a1->children()->create(['name' => \Illuminate\Support\Str::random()]);
-    $b2 = $a1->children()->create(['name' => \Illuminate\Support\Str::random()]);
-    $b2->children()->create(['name' => \Illuminate\Support\Str::random()]);
-*/
+
+    \App\Models\Category::factory()->count(30)->create();
+    //\App\Models\Producer::factory()->count(20)->create();
 })->purpose('Test');
