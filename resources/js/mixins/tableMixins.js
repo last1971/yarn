@@ -65,7 +65,7 @@ export default {
                 this.itemIds = response.itemIds;
                 this.total = response.total;
             } catch (e) {
-                console.log(e);
+                console.error(e);
             }
             this.loading = false;
         }

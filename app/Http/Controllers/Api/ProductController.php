@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -23,35 +23,36 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param ProductRequest $request
+     * @return Product
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request): Product
     {
-        //
+        return Product::create($request->validated());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Product $product
+     * @return Product
      */
-    public function show($id)
+    public function show(Product $product): Product
     {
-        //
+        return $product;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param ProductRequest $request
+     * @param Product $product
+     * @return Product
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, Product $product): Product
     {
-        //
+        $product->update($request->validated());
+        return $product->refresh();
     }
 
     /**

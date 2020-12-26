@@ -56,7 +56,7 @@ export default {
                 );
                 this.$store.commit('AUTH/SET_USER', response.data);
             } catch (e) {
-                console.log(e);
+                console.error(e);
             }
         }
     }

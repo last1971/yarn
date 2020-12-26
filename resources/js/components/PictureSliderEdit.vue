@@ -76,7 +76,7 @@ export default {
                 this.$store.commit(_.toUpper(this.model) + '/UPDATE', newValue);
                 this.pictureIndex = newValue.pictures.length - 1;
             } catch (e) {
-                console.log(e);
+                console.error(e);
             }
         },
         async destroy(picture) {
@@ -88,7 +88,7 @@ export default {
                 newValue.pictures.splice(index, 1);
                 this.$store.commit(_.toUpper(this.model) + '/UPDATE', newValue);
             } catch (e) {
-                console.log(e);
+                console.error(e);
             }
         },
         async setMain(picture) {

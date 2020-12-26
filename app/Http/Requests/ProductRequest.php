@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string',
             'picture_id' => 'nullable|uuid',
             'producer_id' => 'nullable|uuid',
-            'category_id' => 'uuid',
+            'category_id' => 'required|uuid',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response;
+use Kalnoy\Nestedset\QueryBuilder;
 
 class CategoryController extends Controller
 {
@@ -17,7 +18,12 @@ class CategoryController extends Controller
      */
     public function index(): LengthAwarePaginator
     {
-        return Category::query()->requestBuilder()->paginate(request('itemsPerPage'));
+        return Category::query()
+            ->requestBuilder()
+            ->when(request('isLeaf'), function (QueryBuilder $query) {
+                $query->whereRaw('_lft +1 = _rgt');
+            })
+            ->paginate(request('itemsPerPage'));
     }
 
     /**
