@@ -18,6 +18,9 @@
                 TO DO
             </v-container>
         </template>
+        <template v-slot:header v-else="editMode">
+            <parameters-select v-model="proxyOptions"/>
+        </template>
         <template v-slot:default="props">
             <v-container>
                 <v-row>
@@ -35,14 +38,16 @@ import ModelCard from "./ModelCard";
 import isAdmin from "../mixins/isAdmin";
 import screenMixin from "../mixins/screenMixin";
 import tableMixins from "../mixins/tableMixins";
+import ParametersSelect from "./ParameterComponents/ParametersSelect";
 
 export default {
     name: "Products",
-    components: {ModelCard},
+    components: {ParametersSelect, ModelCard},
     mixins: [isAdmin, screenMixin, tableMixins],
     props: {
         options: {
             type: Object,
+            default: () => { return {}}
         }
     },
     data() {

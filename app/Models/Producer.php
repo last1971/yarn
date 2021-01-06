@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Producer whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Producer whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $site
+ * @method static \Illuminate\Database\Eloquent\Builder|Producer whereSite($value)
  */
 class Producer extends Model
 {

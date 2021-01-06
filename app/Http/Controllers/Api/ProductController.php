@@ -17,6 +17,9 @@ class ProductController extends Controller
      */
     public function index(): LengthAwarePaginator
     {
+        request()->merge(
+            ['selectedParameters' => json_decode(request('selectedParameters'), true) ?? []]
+        );
         return Product::query()->requestBuilder()->paginate(request('itemsPerPage'));
     }
 

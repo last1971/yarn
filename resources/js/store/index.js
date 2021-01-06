@@ -6,6 +6,9 @@ import article from "./models/article";
 import category from "./models/category";
 import producer from "./models/producer";
 import product from "./models/product";
+import price from "./models/price";
+import parameterName from "./models/parameterName";
+import parameterValue from "./models/parameterValue";
 
 Vue.use(Vuex);
 
@@ -18,6 +21,9 @@ export default new Vuex.Store({
         ARTICLE: article,
         AUTH: auth,
         CATEGORY: category,
+        'PARAMETER-NAME': parameterName,
+        'PARAMETER-VALUE': parameterValue,
+        PRICE: price,
         PRODUCER: producer,
         PRODUCT: product,
         SNACKBAR: snackbar,

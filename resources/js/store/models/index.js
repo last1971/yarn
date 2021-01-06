@@ -76,11 +76,12 @@ const mutations = {
         }
         const index = _.findIndex(state.items, {[state.key]: key});
         if (index < 0) {
-            const error = 'Imposible remove ' + state.name + ' with key ' + key;
-            this.commit('SNACKBAR/ERROR', error);
-            throw new Error(error);
+        //    const error = 'Imposible remove ' + state.name + ' with key ' + key;
+        //    this.commit('SNACKBAR/ERROR', error);
+        //    throw new Error(error);
+        } else {
+            state.items.splice(index, 1);
         }
-        state.items.splice(index, 1);
     },
 };
 
@@ -187,7 +188,7 @@ let actions = {
                         },
                         {root: true}
                     );
-                    resolve(response)
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     commit('SNACKBAR/ERROR', error.response.data.message, {root: true});

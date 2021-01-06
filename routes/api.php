@@ -3,8 +3,13 @@
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ParameterNameController;
+use App\Http\Controllers\Api\ParameterUnitController;
+use App\Http\Controllers\Api\ParameterValueController;
 use App\Http\Controllers\Api\PictureController;
+use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\ProducerController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,9 +33,13 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResources([
         'article' => ArticleController::class,
         'category' => CategoryController::class,
+        'parameter-name' => ParameterNameController::class,
+        'parameter-value' => ParameterValueController::class,
+        'parameter-unit' => ParameterUnitController::class,
         'picture' => PictureController::class,
+        'price' => PriceController::class,
         'producer' => ProducerController::class,
-        'product' => \App\Http\Controllers\Api\ProductController::class,
+        'product' => ProductController::class,
     ]);
 });
 

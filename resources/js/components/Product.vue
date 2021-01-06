@@ -26,6 +26,8 @@
                     </v-textarea>
                     <category-select v-model="proxy.category_id" @input="save"/>
                     <producer-select v-model="proxy.producer_id" @input="save"/>
+                    <prices v-model="proxy" />
+                    <parameters-edit v-model="proxy" />
                 </v-col>
             </v-row>
             <v-row>
@@ -75,6 +77,8 @@
                                         </router-link>
                                     </v-col>
                                 </v-row>
+                                <prices v-model="proxy" />
+                                <parameters-show v-model="proxy" />
                             </v-container>
                         </v-card-text>
                     </v-card>
@@ -95,10 +99,15 @@ import isAdmin from "../mixins/isAdmin";
 import modelMixin from "../mixins/modelMixin";
 import CategorySelect from "./CategorySelect";
 import ProducerSelect from "./ProducerSelect";
+import Prices from "./Prices";
+import ParametersShow from "./ParameterComponents/ParametersShow";
+import ParametersEdit from "./ParameterComponents/ParametersEdit";
 
 export default {
     name: "Product",
-    components: {ProducerSelect, CategorySelect, ArticleShow, ArticleEdit, PictureSliderEdit},
+    components: {
+        ParametersEdit,
+        ParametersShow, Prices, ProducerSelect, CategorySelect, ArticleShow, ArticleEdit, PictureSliderEdit},
     mixins:[isAdmin,modelMixin],
     data() {
         return {

@@ -14966,27 +14966,6 @@
      
 }
 
-    namespace Illuminate\Database\Query { 
-            /**
-     * 
-     *
-     */ 
-        class Builder {
-                    /**
-         * 
-         *
-         * @see \App\Providers\MacrosServiceProvider::boot()
-         * @static 
-         */ 
-        public static function requestBuilder()
-        {
-                        return \Illuminate\Database\Query\Builder::requestBuilder();
-        }
-         
-    }
-     
-}
-
 
 namespace  { 
             class App extends \Illuminate\Support\Facades\App {}
@@ -18074,17 +18053,6 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
                                 return $instance->macroCall($method, $parameters);
-            }
-             
-                /**
-             * 
-             *
-             * @see \App\Providers\MacrosServiceProvider::boot()
-             * @static 
-             */ 
-            public static function requestBuilder()
-            {
-                                return \Illuminate\Database\Query\Builder::requestBuilder();
             }
                     }
             class Event extends \Illuminate\Support\Facades\Event {}

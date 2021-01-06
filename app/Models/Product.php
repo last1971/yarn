@@ -7,6 +7,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -41,6 +42,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ParameterValue[] $parameterValues
+ * @property-read int|null $parameter_values_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Price[] $prices
+ * @property-read int|null $prices_count
  */
 class Product extends Model
 {
@@ -48,7 +53,14 @@ class Product extends Model
 
     protected $fillable = ['name', 'description', 'article_id', 'picture_id', 'category_id', 'producer_id'];
 
-    protected $with = ['picture', 'pictures', 'producer', 'category'];
+    protected $with = [
+        'picture',
+        'pictures',
+        'producer',
+        'category',
+        'prices',
+        'parameterValues',
+    ];
 
     public function picture(): BelongsTo
     {
@@ -68,5 +80,19 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class)->orderBy('min');
+    }
+
+    public function parameterValues(): HasMany
+    {
+        return $this
+            ->hasMany(ParameterValue::class)
+            ->join('parameter_names', 'parameter_names.id', '=', 'parameter_name_id')
+            ->orderBy('parameter_names.name')
+            ->select('parameter_values.*');
     }
 }

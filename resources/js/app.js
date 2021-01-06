@@ -1,12 +1,15 @@
 import vuetify from "./vuetify";
 import router from "./router";
 import store from "./store";
+import Vue from "vue";
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-
 Vue.component('app', require('./components/App.vue').default);
+
+Vue.filter('formatRub', function (d) {
+    return new Intl.NumberFormat('ru-RU', {style: 'currency', currency: 'RUB'}).format(d);
+});
 
 const app = new Vue({
     el: '#app',
@@ -21,9 +24,8 @@ const app = new Vue({
             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
             try {
                 await this.$store.dispatch('AUTH/REFRESH');
-                //await this.$store.dispatch('CATEGORY/GET', '49556882-feb9-4404-ba4b-babb0de83b06');
             } catch (e) {
-                this.$router.push({name: 'login'});
+                await this.$router.push({name: 'login'});
             }
         }
     }
