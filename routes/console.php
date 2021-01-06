@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ParameterValue;
+use App\Models\Producer;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -18,28 +20,20 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Artisan::command('test', function () {
-    $products = \App\Models\Product::select('products.id')
-        ->join('parameter_values', 'parameter_values.product_id', '=', 'products.id')
-        ->where('producer_id', '01063897-6076-46a9-85ab-429a5e059e60')
-        ->where('string_value', 'Россия');
-    $parameters = \App\Models\ParameterValue::whereIn('product_id', $products);
-    dd($parameters->groupBy(['parameter_name_id', 'string_value', 'numeric_value'])->get(['parameter_name_id', 'string_value', 'numeric_value']));
-    \App\Models\ParameterName::with('parameterUnit.parameterUnits')->get();
-    /*
+Artisan::command('test:products', function () {
+    \App\Models\Category::factory()->count(30)->create();
+    Producer::factory()->count(20)->create();
     $categories = \App\Models\Category::whereRaw('_lft+1 = _rgt')->get();
-    $producers = \App\Models\Producer::get();
-    for ($i=0;$i < 200; $i++) {
+    $producers = Producer::get();
+    for ($i=0;$i < 999; $i++) {
         $category = rand(0, $categories->count() - 1);
         $producer = rand(0, $producers->count() - 1);
         \App\Models\Product::factory([
             'producer_id' => $producers->get($producer)->id,
             'category_id' => $categories->get($category)->id,
         ])->create();
-    }*/
-    //\App\Models\Category::factory()->count(30)->create();
-    //\App\Models\Producer::factory()->count(20)->create();
-})->purpose('Test');
+    }
+})->purpose('Test products');
 
 Artisan::command('test:parameters', function () {
     $products = \App\Models\Product::get();
@@ -55,7 +49,7 @@ Artisan::command('test:parameters', function () {
             'Для плетения',
         ];
         $i = rand(0, 6);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -68,7 +62,7 @@ Artisan::command('test:parameters', function () {
             'Ручная и машинная',
         ];
         $i = rand(0, 2);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -81,7 +75,7 @@ Artisan::command('test:parameters', function () {
             'Германия',
         ];
         $i = rand(0, 2);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -95,7 +89,7 @@ Artisan::command('test:parameters', function () {
             'Весна-лето',
         ];
         $i = rand(0, 3);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -117,7 +111,7 @@ Artisan::command('test:parameters', function () {
             'Плюшевая',
         ];
         $i = rand(0, 11);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -125,7 +119,7 @@ Artisan::command('test:parameters', function () {
 
         $p = \App\Models\ParameterName::with('parameterUnit')
             ->firstWhere('name', 'Толщина нити от');
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'numeric_value' => rand(100, 500),
@@ -135,7 +129,7 @@ Artisan::command('test:parameters', function () {
 
         $p = \App\Models\ParameterName::with('parameterUnit')
             ->firstWhere('name', 'Толщина нити до');
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'numeric_value' => rand(500, 900),
@@ -177,7 +171,7 @@ Artisan::command('test:parameters', function () {
         $k = rand(0, 2);
         while ($k != 0 && $j > 0) {
             $l = rand(1, $j);
-            \App\Models\ParameterValue::query()->create([
+            ParameterValue::query()->create([
                 'product_id' => $product->id,
                 'parameter_name_id' => $p->id,
                 'string_value' => $v[$i],
@@ -191,7 +185,7 @@ Artisan::command('test:parameters', function () {
             $k = $k - 1;
         }
         if ($j > 0) {
-            \App\Models\ParameterValue::query()->create([
+            ParameterValue::query()->create([
                 'product_id' => $product->id,
                 'parameter_name_id' => $p->id,
                 'string_value' => $v[$i],
@@ -207,7 +201,7 @@ Artisan::command('test:parameters', function () {
             'Меланжевая пряжа',
         ];
         $i = rand(0, 1);
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'string_value' => $v[$i],
@@ -215,7 +209,7 @@ Artisan::command('test:parameters', function () {
 
         $p = \App\Models\ParameterName::with('parameterUnit')
             ->firstWhere('name', 'Длина нити в мотке');
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'numeric_value' => rand(300, 800),
@@ -225,7 +219,7 @@ Artisan::command('test:parameters', function () {
 
         $p = \App\Models\ParameterName::with('parameterUnit')
             ->firstWhere('name', 'Вес мотка');
-        \App\Models\ParameterValue::query()->create([
+        ParameterValue::query()->create([
             'product_id' => $product->id,
             'parameter_name_id' => $p->id,
             'numeric_value' => rand(25, 600),
