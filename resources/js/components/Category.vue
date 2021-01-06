@@ -6,7 +6,7 @@
         </v-tab>
         <v-tab>Описание</v-tab>
         <v-tab-item>
-            <products v-if="isLeaf" :options.sync="productOptions" />
+            <products v-if="isLeaf" :options.sync="productOptions" :parent-id="proxy.id" @reload="reload"/>
             <categories v-else-if="instance" :options.sync="categoryOtions" />
         </v-tab-item>
         <v-tab-item>
@@ -117,6 +117,10 @@ export default {
             }
             this.instanceId = instanceId;
         },
+        async reload() {
+            await this.$store.dispatch(this.model + '/GET', this.instanceId);
+            await this.setInstanceId(this.instanceId);
+        }
     },
 }
 </script>

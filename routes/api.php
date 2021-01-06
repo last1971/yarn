@@ -29,19 +29,19 @@ Route::middleware('auth:api')->group(function () {
     Route::get('refresh-user', [AuthController::class, 'refresh'])->name('refresh');
     Route::post('avatar-upload', [UserController::class, 'avatarUpload'])->name('avatar-upload');
     Route::post('picture-upload', [ArticleController::class, 'picture'])->name('picture-upload');
-
-    Route::apiResources([
-        'article' => ArticleController::class,
-        'category' => CategoryController::class,
-        'parameter-name' => ParameterNameController::class,
-        'parameter-value' => ParameterValueController::class,
-        'parameter-unit' => ParameterUnitController::class,
-        'picture' => PictureController::class,
-        'price' => PriceController::class,
-        'producer' => ProducerController::class,
-        'product' => ProductController::class,
-    ]);
 });
+
+Route::apiResources([
+    'article' => ArticleController::class,
+    'category' => CategoryController::class,
+    'parameter-name' => ParameterNameController::class,
+    'parameter-value' => ParameterValueController::class,
+    'parameter-unit' => ParameterUnitController::class,
+    'picture' => PictureController::class,
+    'price' => PriceController::class,
+    'producer' => ProducerController::class,
+    'product' => ProductController::class,
+]);
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
