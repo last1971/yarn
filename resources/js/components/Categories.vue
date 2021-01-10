@@ -46,7 +46,9 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    nullAttributes: ['parent_id']
+                    nullAttributes: ['parent_id'],
+                    sortBy: ['name'],
+                    sortDesc: [false]
                 };
             }
         }

@@ -19,6 +19,7 @@
                               @reload="$emit('reload')"
                               v-if="items.length === 0 && parentId"
                 />
+                <new-product :category-id="parentId" @reload="reload" v-if="parentId" />
             </v-container>
         </template>
         <template v-slot:header v-else>
@@ -43,10 +44,11 @@ import screenMixin from "../mixins/screenMixin";
 import tableMixins from "../mixins/tableMixins";
 import ParametersSelect from "./ParameterComponents/ParametersSelect";
 import NewCategory from "./NewCategory";
+import NewProduct from "./NewProduct";
 
 export default {
     name: "Products",
-    components: {NewCategory, ParametersSelect, ModelCard},
+    components: {NewProduct, NewCategory, ParametersSelect, ModelCard},
     mixins: [isAdmin, screenMixin, tableMixins],
     props: {
         options: {

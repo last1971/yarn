@@ -7,7 +7,7 @@
         <v-tab>Описание</v-tab>
         <v-tab-item>
             <products v-if="isLeaf" :options.sync="productOptions" :parent-id="proxy.id" @reload="reload"/>
-            <categories v-else-if="instance" :options.sync="categoryOtions" />
+            <categories v-else-if="instance" :options.sync="categoryOptions" />
         </v-tab-item>
         <v-tab-item>
             <v-container v-if="instance">
@@ -89,7 +89,10 @@ export default {
             model: 'CATEGORY',
             proxy: null,
             productOptions: {},
-            categoryOtions: {},
+            categoryOptions: {
+                sortBy: ['name'],
+                sortDesc: [false]
+            },
         }
     },
     computed: {
@@ -111,15 +114,18 @@ export default {
                 this.productOptions.whereOperators = ['='];
                 this.productOptions.whereValues = [instanceId];
             } else {
-                this.categoryOtions.whereAttributes = ['parent_id'];
-                this.categoryOtions.whereOperators = ['='];
-                this.categoryOtions.whereValues = [instanceId];
+                this.categoryOptions.whereAttributes = ['parent_id'];
+                this.categoryOptions.whereOperators = ['='];
+                this.categoryOptions.whereValues = [instanceId];
             }
             this.instanceId = instanceId;
         },
         async reload() {
+            this.categoryOptions.whereAttributes = ['parent_id'];
+            this.categoryOptions.whereOperators = ['='];
+            this.categoryOptions.whereValues = [this.instanceId];
             await this.$store.dispatch(this.model + '/GET', this.instanceId);
-            await this.setInstanceId(this.instanceId);
+            // await this.setInstanceId(this.instanceId);
         }
     },
 }
