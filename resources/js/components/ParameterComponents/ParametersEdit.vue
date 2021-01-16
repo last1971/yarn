@@ -1,16 +1,18 @@
 <template>
     <v-container>
         <div v-for="(parameter, i) in parameterValues" :key="parameter.id">
-            <parameter-edit v-model="parameterValues[i]" @input="save"/>
+            <parameter-edit v-model="parameterValues[i]" @input="save" @remove="remove" @add="add"/>
         </div>
+        <parameter-add v-model="value"/>
     </v-container>
 </template>
 
 <script>
 import ParameterEdit from "./ParameterEdit";
+import ParameterAdd from "./ParameterAdd";
 export default {
     name: "ParametersEdit",
-    components: {ParameterEdit},
+    components: {ParameterAdd, ParameterEdit},
     props: {
         value: { type: Object, required: true },
     },
@@ -39,6 +41,17 @@ export default {
         save() {
             const newValue = _.cloneDeep(this.value);
             newValue.parameter_values = this.parameterValues;
+            this.$store.commit('PRODUCT/UPDATE', newValue);
+        },
+        add(parameter) {
+            const newValue = _.cloneDeep(this.value);
+            newValue.parameter_values.push(parameter);
+            this.$store.commit('PRODUCT/UPDATE', newValue);
+        },
+        remove(id) {
+            const newValue = _.cloneDeep(this.value);
+            const index = _.findIndex(newValue.parameter_values, { id });
+            newValue.parameter_values.splice(index, 1);
             this.$store.commit('PRODUCT/UPDATE', newValue);
         }
     }

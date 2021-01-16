@@ -19,10 +19,22 @@
             <v-text-field label="Число" v-model="proxy.numeric_value"/>
             <v-text-field label="Дробь" v-model="proxy.fraction"/>
         </v-col>
-        <v-col>
-            <v-btn fab :disabled="disabled" @click="save" :loading="loading">
+        <v-col v-if="isAdding">
+            <v-btn-toggle>
+                <v-btn @click="add" :loading="loading">
+                    <v-icon color="success">mdi-plus</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+        </v-col>
+        <v-col v-else>
+            <v-btn-toggle>
+            <v-btn  :disabled="disabled" @click="save" :loading="loading">
                 <v-icon color="success">mdi-content-save</v-icon>
             </v-btn>
+            <v-btn  @click="remove" :loading="loading">
+                <v-icon color="error">mdi-delete</v-icon>
+            </v-btn>
+            </v-btn-toggle>
         </v-col>
     </v-row>
 </template>
@@ -54,6 +66,9 @@ export default {
         },
         disabled() {
             return _.isEqual(this.value, this.proxy);
+        },
+        isAdding() {
+            return !this.value.id;
         }
     },
     watch: {
@@ -72,6 +87,27 @@ export default {
             }
             this.loading = false;
         },
+        async remove() {
+            this.loading = true;
+            try {
+                await this.$store.dispatch('PARAMETER-VALUE/REMOVE', this.proxy.id);
+                this.$emit('remove', this.proxy.id);
+            } catch (e) {
+                console.error(e)
+            }
+            this.loading = false;
+        },
+        async add() {
+            this.loading = true;
+            try {
+                const parameter = await this.$store.dispatch('PARAMETER-VALUE/CREATE', this.proxy);
+                this.proxy = _.cloneDeep(this.value);
+                this.$emit('input', parameter);
+            } catch (e) {
+                console.error(e);
+            }
+            this.loading = false;
+        }
     }
 }
 </script>

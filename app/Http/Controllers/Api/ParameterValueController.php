@@ -7,8 +7,8 @@ use App\Http\Requests\ParameterValueRequest;
 use App\Models\ParameterValue;
 use App\Models\Product;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ParameterValueController extends Controller
 {
@@ -35,12 +35,14 @@ class ParameterValueController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ParameterValueRequest $request
+     * @return ParameterValue|Model
      */
-    public function store(Request $request)
+    public function store(ParameterValueRequest $request): ParameterValue
     {
-
+        $parameterValue = ParameterValue::create($request->validated());
+        $parameterValue->load(['parameterName', 'parameterUnit']);
+        return $parameterValue;
     }
 
     /**
@@ -64,7 +66,8 @@ class ParameterValueController extends Controller
     public function update(ParameterValueRequest $request, ParameterValue $parameterValue): ParameterValue
     {
         $parameterValue->update($request->validated());
-        return $parameterValue->refresh();
+        $parameterValue->refresh();
+        return $parameterValue;
     }
 
     /**
