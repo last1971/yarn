@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <div v-for="(parameter, i) in parameterValues" :key="parameter.id">
-            <parameter-edit v-model="parameterValues[i]" @input="save" @remove="remove" @add="add"/>
+            <parameter-edit v-model="parameterValues[i]" @input="save" @remove="remove"/>
         </div>
-        <parameter-add v-model="value"/>
+        <parameter-add v-model="value" @add="add"/>
     </v-container>
 </template>
 

@@ -102,7 +102,7 @@ export default {
             try {
                 const parameter = await this.$store.dispatch('PARAMETER-VALUE/CREATE', this.proxy);
                 this.proxy = _.cloneDeep(this.value);
-                this.$emit('input', parameter);
+                this.$emit('add', parameter);
             } catch (e) {
                 console.error(e);
             }

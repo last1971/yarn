@@ -1,5 +1,5 @@
 <template>
-    <parameter-edit v-model="newParameter" @input="add"/>
+    <parameter-edit v-model="newParameter" @add="add"/>
 </template>
 
 <script>
