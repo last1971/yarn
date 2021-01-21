@@ -2,20 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\AuthorizeAdminRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ArticleRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+    use AuthorizeAdminRequest;
 
     /**
      * Get the validation rules that apply to the request.

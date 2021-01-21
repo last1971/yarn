@@ -13,10 +13,10 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col col="8">
+                <v-col cols="8">
                     <picture-slider-edit v-model="instance" model="product" v-if="instance"/>
                 </v-col>
-                <v-col col="4">
+                <v-col cols="4" >
                     <v-textarea v-model="proxy.description" label="Краткое описание" counter="500" auto-grow>
                         <template v-slot:append>
                             <v-btn icon :disabled="instance.description === proxy.description" @click="save">
@@ -38,10 +38,10 @@
         </div>
         <v-container v-else>
             <v-row>
-                <v-col cols="8">
+                <v-col cols="12" md="8">
                     <picture-slider-edit v-model="instance" model="product" v-if="instance"/>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="12" md="4">
                     <v-card min-height="500" class="mt-6">
                         <v-card-title>
                             {{ proxy.name }}

@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Traits\SlugFromName;
 use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Product
@@ -21,30 +24,30 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string|null $article_id
  * @property string|null $producer_id
  * @property string|null $category_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Category|null $category
- * @property-read \App\Models\Picture|null $picture
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Picture[] $pictures
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Category|null $category
+ * @property-read Picture|null $picture
+ * @property-read Collection|Picture[] $pictures
  * @property-read int|null $pictures_count
- * @property-read \App\Models\Producer|null $producer
- * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereArticleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product wherePictureId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereProducerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ * @property-read Producer|null $producer
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereArticleId($value)
+ * @method static Builder|Product whereCategoryId($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereDescription($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereName($value)
+ * @method static Builder|Product wherePictureId($value)
+ * @method static Builder|Product whereProducerId($value)
+ * @method static Builder|Product whereSlug($value)
+ * @method static Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ParameterValue[] $parameterValues
+ * @property-read Collection|\App\Models\ParameterValue[] $parameterValues
  * @property-read int|null $parameter_values_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Price[] $prices
+ * @property-read Collection|\App\Models\Price[] $prices
  * @property-read int|null $prices_count
  */
 class Product extends Model
@@ -94,5 +97,10 @@ class Product extends Model
             ->join('parameter_names', 'parameter_names.id', '=', 'parameter_name_id')
             ->orderBy('parameter_names.name')
             ->select('parameter_values.*');
+    }
+
+    public function warehouseBalances()
+    {
+        return $this->hasMany(WarehouseBalance::class);
     }
 }

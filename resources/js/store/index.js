@@ -9,6 +9,7 @@ import product from "./models/product";
 import price from "./models/price";
 import parameterName from "./models/parameterName";
 import parameterValue from "./models/parameterValue";
+import supplier from "./models/supplier";
 
 Vue.use(Vuex);
 
@@ -27,5 +28,6 @@ export default new Vuex.Store({
         PRODUCER: producer,
         PRODUCT: product,
         SNACKBAR: snackbar,
+        SUPPLIER: supplier,
     }
 });

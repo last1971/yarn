@@ -4,10 +4,12 @@ const state = {
     key: 'id',
     items: [],
     fillable: [],
+    newValue: {},
 };
 
 const getters = {
     NAME: state => state.name,
+    'NEW-VALUE': state => state.newValue,
     KEY: state => state.key,
     KEYTYPE: state => state.keyType,
     URL: state => `/api/${state.name}`,
