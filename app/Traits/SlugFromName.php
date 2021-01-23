@@ -19,7 +19,11 @@ trait SlugFromName
         $slug = !empty($this->attributes['slug']) ? $this->attributes['slug'] : '';
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
-        if ($slug && $this->attributes['slug'] !== $slug) {
+        if (
+            $slug && $this->attributes['slug'] !== $slug
+            &&
+            Storage::disk('public')->exists('pictures/' . $slug)
+        ) {
             Storage::disk('public')->rename(
                 'pictures/' . $slug,
                 'pictures/' . $this->attributes['slug'],

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ProducerController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WarehouseBalanceController;
 use App\Http\Controllers\Api\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,7 @@ Route::middleware('auth:api')->group(function () {
         'product' => ProductController::class,
         'supplier' => SupplierController::class,
         'warehouse' => WarehouseController::class,
+        'warehouse-balance' => WarehouseBalanceController::class,
     ]);
 });
 
@@ -59,6 +61,7 @@ Route::resources([
     'product' => ProductController::class,
     'supplier' => SupplierController::class,
     'warehouse' => WarehouseController::class,
+    'warehouse-balance' => WarehouseBalanceController::class,
 ], ['only' => ['index', 'show']]);
 
 Route::post('register', [AuthController::class, 'register'])->name('register');

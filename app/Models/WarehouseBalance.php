@@ -13,6 +13,8 @@ class WarehouseBalance extends Model
 
     protected $fillable = ['balance', 'warehouse_id', 'product_id'];
 
+    protected $with = ['warehouse:id,name'];
+
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);

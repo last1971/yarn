@@ -10,6 +10,8 @@ import price from "./models/price";
 import parameterName from "./models/parameterName";
 import parameterValue from "./models/parameterValue";
 import supplier from "./models/supplier";
+import warehouse from "./models/warehouse";
+import warehouseBalance from "./models/warehouseBalance";
 
 Vue.use(Vuex);
 
@@ -29,5 +31,7 @@ export default new Vuex.Store({
         PRODUCT: product,
         SNACKBAR: snackbar,
         SUPPLIER: supplier,
+        WAREHOUSE: warehouse,
+        'WAREHOUSE-BALANCE': warehouseBalance,
     }
 });

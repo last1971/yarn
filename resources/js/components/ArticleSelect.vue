@@ -99,7 +99,7 @@ export default {
             if (!val || this.isLoading) return;
             this.$emit('search', val);
             this.getItems(val);
-        }, 1000),
+        }, process.env.MIX_DEBOUNCE),
         name() {
             this.errors = {};
         },

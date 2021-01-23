@@ -3,7 +3,7 @@
         <template v-slot:activator="{ on }">
             <v-btn icon color="success" v-on="on">
                 <v-icon v-if="value">mdi-pencil</v-icon>
-                <v-icon v-if-else>mdi-plus</v-icon>
+                <v-icon v-else>mdi-plus</v-icon>
             </v-btn>
         </template>
         <v-card>
@@ -11,9 +11,7 @@
                 <span class="headline">{{ title }}</span>
                 <v-spacer/>
                 <v-btn @click="close" icon right>
-                    <v-icon color="red">
-                        mdi-close
-                    </v-icon>
+                    <v-icon color="red">mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
             <v-divider/>
@@ -39,7 +37,7 @@ export default {
     name: "ModalEdit",
     props: {
         value: {
-            type: String,
+            validator: prop => typeof prop === 'string' || prop === null,
             required: true,
         },
         model: {
@@ -60,7 +58,9 @@ export default {
     },
     computed: {
         saveNotPossible() {
-            return _.isEqual(this.value, this.proxy) || _.isEqual(this.newValue, this.proxy);
+            const compare = _.cloneDeep(this.$store.getters[this.MODEL + '/GET'](this.value))
+                || _.cloneDeep(this.$store.getters[this.MODEL + '/NEW-VALUE']);
+            return _.isEqual(compare, this.proxy);
         },
         MODEL() {
             return _.toUpper(this.model);

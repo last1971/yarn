@@ -13,6 +13,8 @@ class Warehouse extends Model
 
     protected $fillable = ['name', 'supplier_id'];
 
+    protected $with = ['supplier:id,name'];
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);

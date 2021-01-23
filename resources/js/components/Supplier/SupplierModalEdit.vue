@@ -18,8 +18,9 @@ export default {
     components: {ModalEdit},
     props: {
         value: {
-            type: String,
+            validator: prop => typeof prop === 'string' || prop === null,
             required: true,
+            default: null,
         }
     },
     methods: {

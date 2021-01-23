@@ -27,6 +27,7 @@
                     <category-select v-model="proxy.category_id" @input="save"/>
                     <producer-select v-model="proxy.producer_id" @input="save"/>
                     <prices v-model="proxy" />
+                    <product-warehouse-balances v-model="proxy.id" />
                     <parameters-edit v-model="proxy" />
                 </v-col>
             </v-row>
@@ -78,6 +79,7 @@
                                     </v-col>
                                 </v-row>
                                 <prices v-model="proxy" />
+                                <product-warehouse-balances v-model="proxy.id" />
                                 <parameters-show v-model="proxy" />
                             </v-container>
                         </v-card-text>
@@ -102,10 +104,12 @@ import ProducerSelect from "./ProducerSelect";
 import Prices from "./Prices";
 import ParametersShow from "./ParameterComponents/ParametersShow";
 import ParametersEdit from "./ParameterComponents/ParametersEdit";
+import ProductWarehouseBalances from "./ProductWarehouseBalances";
 
 export default {
     name: "Product",
     components: {
+        ProductWarehouseBalances,
         ParametersEdit,
         ParametersShow, Prices, ProducerSelect, CategorySelect, ArticleShow, ArticleEdit, PictureSliderEdit},
     mixins:[isAdmin,modelMixin],

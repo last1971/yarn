@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        <v-alert v-if="parameters.length" color="primary" class="text-center">Параметры</v-alert>
         <v-row v-for="parameter in parameters" :key="parameter.id">
             <v-col>
                 {{ parameter.parameter_name.name }}:

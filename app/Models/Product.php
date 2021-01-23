@@ -63,6 +63,7 @@ class Product extends Model
         'category',
         'prices',
         'parameterValues',
+        'warehouseBalances',
     ];
 
     public function picture(): BelongsTo
