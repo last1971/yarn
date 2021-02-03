@@ -10,6 +10,7 @@ import Producers from "../components/Producers";
 import Producer from "../components/Producer";
 import Product from "../components/Product";
 import Products from "../components/Products";
+import Order from "../components/Order";
 
 
 Vue.use(VueRouter);
@@ -34,6 +35,11 @@ const routes = [
         name: 'login',
         path: '/login',
         component: Login
+    },
+    {
+        name: 'order',
+        path: '/order',
+        component: Order,
     },
     {
         name: 'producers',

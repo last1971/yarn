@@ -7,6 +7,9 @@ import colors from 'vuetify/lib/util/colors'
 
 Vue.use(Vuetify);
 
+const primary = process.env.MIX_PRIMARY_COLOR || 'purple';
+const lighten = process.env.MIX_PRIMARY_LIGHTEN || 'lighten4';
+
 const opts = {
     icons: {
         iconfont: 'mdi',
@@ -18,7 +21,7 @@ const opts = {
     theme: {
         themes: {
             light: {
-                primary: colors.pink.lighten2,
+              primary: colors[primary][lighten],
             },
         },
     },

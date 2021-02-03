@@ -83,7 +83,7 @@
             app
             color="primary"
         >
-            <span class="white--text">Ласточкин Дом" &copy; 2020</span>
+            <span class="white--text">Ласточкин Дом" &copy; 2021</span>
         </v-footer>
         <v-snackbar
             :color="snackbar.color"
@@ -117,8 +117,9 @@ export default {
             drawer: false,
             menus: [
                 { id: 1, text: 'Категории', to: {name: 'categories'}, icon: 'mdi-shape'},
-                { id: 2, text: 'Производители', to: {name: 'producers'}, icon: 'mdi-professional-hexagon'},
-                { id: 3, text: 'Продукты', to: {name: 'products'}, icon: 'mdi-approximately-equal-box'},
+                // { id: 2, text: 'Производители', to: {name: 'producers'}, icon: 'mdi-professional-hexagon'},
+                { id: 3, text: 'Продукты', to: {name: 'products'}, icon: 'mdi-volleyball'},
+                { id: 4, text: 'Заказ', to: {name: 'order'}, icon: 'mdi-cart'}
             ],
         }
     },
