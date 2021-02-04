@@ -57,6 +57,15 @@ class MacrosServiceProvider extends ServiceProvider
                     );
                 }
             }
+            if (isset($request['havingAttributes'])) {
+                foreach ($request['havingAttributes'] as $index => $attribute) {
+                    $this->having(
+                        $attribute,
+                        $request['havingOperators'][$index],
+                        $request['havingValues'][$index]
+                    );
+                }
+            }
             if (isset($request['nullAttributes'])) {
                 foreach ($request['nullAttributes'] as $attribute) {
                     $this->whereNull($attribute);

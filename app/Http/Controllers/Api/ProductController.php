@@ -20,7 +20,7 @@ class ProductController extends Controller
         request()->merge(
             ['selectedParameters' => json_decode(request('selectedParameters'), true) ?? []]
         );
-        return Product::query()->requestBuilder()->paginate(request('itemsPerPage'));
+        return Product::query()->requestBuilder()->withCount('warehouseBalances')->paginate(request('itemsPerPage'));
     }
 
     /**

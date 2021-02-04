@@ -47,7 +47,7 @@
                         <v-card-title>
                             {{ proxy.name }}
                         </v-card-title>
-                        <v-card-subtitle>
+                        <v-card-subtitle style="white-space: pre-line">
                             {{ proxy.description }}
                         </v-card-subtitle>
                         <v-card-text>

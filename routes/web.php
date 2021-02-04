@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Cache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,10 +28,19 @@ Route::get('/picture/{article}/{picture}', function(string $article, string $pic
 });
 
 Route::get('/picture/{slug}/{id}/{picture}', function(string $slug, string $id, string $picture) {
-    $path = Storage::exists('public/pictures/' . $slug . '/' . $id . '/' . $picture)
-        ? 'pictures/' . $slug . '/' . $id . '/' . $picture
-        : 'articles/default.png';
-    return Image::make(public_path($path))->response();
+    return Cache::remember(url()->current(), 3600, function () use ($slug, $id, $picture) {
+        $path = Storage::exists('public/pictures/' . $slug . '/' . $id . '/' . $picture)
+            ? 'pictures/' . $slug . '/' . $id . '/' . $picture
+            : 'articles/default.png';
+        return Image::make(public_path($path))->response();
+    });
+    /*
+    return Image::cache(function($image) use ($slug, $id, $picture) {
+        $path = Storage::exists('public/pictures/' . $slug . '/' . $id . '/' . $picture)
+            ? 'pictures/' . $slug . '/' . $id . '/' . $picture
+            : 'articles/default.png';
+        $image->make(public_path($path));
+    }, 10, true)->response();*/
 });
 
 Route::get('/{path?}', function () {

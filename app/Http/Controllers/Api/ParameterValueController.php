@@ -22,7 +22,14 @@ class ParameterValueController extends Controller
         $product = json_decode(request('product'), true);
         $attributes = ['parameter_name_id', 'string_value', 'numeric_value', 'parameter_unit_id', 'fraction'];
         if ($product !== null) {
-            $products = Product::select('products.id')->arrayBuilder($product);
+            $products = Product::select('products.id')
+                ->arrayBuilder($product)
+                ->withCount('warehouseBalances')
+                ->without('parameterValues')
+                ->get()
+                ->map(function($product) {
+                    return $product->id;
+                });
             $p = ParameterValue::whereIn('product_id', $products)
                 ->without('parameterName', 'parameterUnit')
                 ->groupBy($attributes);

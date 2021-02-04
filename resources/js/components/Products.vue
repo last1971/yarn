@@ -61,9 +61,46 @@ export default {
     },
     data() {
         return {
-            model: 'product'
+            model: 'product',
+            havingOptions: {
+                havingAttributes: ['warehouse_balances_count'],
+                havingOperators: ['>'],
+                havingValues: [0],
+            }
         }
     },
+    async created() {
+        this.proxyOptions = Object.assign(
+            {
+                page: 1,
+                itemsPerPage: this.itemsPerPage,
+                mustSort: false,
+                multiSort: false,
+                groupBy: [],
+                groupDesc: [],
+                sortBy: [],
+                sortDesc: [],
+            },
+            this.options,
+            this.havingOptions,
+        );
+        // this.$emit('options:update', this.proxyOptions);
+        // this.previousOptions = _.cloneDeep(this.proxyOptions);
+        // await this.reload();
+    },
+    watch: {
+        editMode(v) {
+            const copy = _.cloneDeep(this.proxyOptions);
+            if (!v) {
+                this.$set(this, 'proxyOptions', _.assign(copy, this.havingOptions));
+            } else {
+                this.$delete(this.proxyOptions, 'havingAttributes');
+                this.$delete(this.proxyOptions, 'havingOperators');
+                this.$delete(this.proxyOptions, 'havingValues');
+            }
+            this.reload();
+        }
+    }
 }
 </script>
 
