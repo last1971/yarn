@@ -22,6 +22,15 @@ export default {
             },
         }
     },
+    watch: {
+        value(v) {
+            this.newParameter = {
+                parameter_name: { id: '' },
+                parameter_name_id: '',
+                product_id: v.id,
+            };
+        }
+    },
     methods: {
         add(parameter) {
             this.$emit('add', parameter);
