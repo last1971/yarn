@@ -22,7 +22,10 @@
             <v-container>
                 <v-row>
                     <v-col v-for="item in props.items" :key="item.id" :cols="cols">
-                        <model-card :value="item" :route-name="model"></model-card>
+                        <model-card :value="item"
+                                    :route-name="model"
+                                    :max-description-length="maxDescriptionLength(props)"
+                        />
                     </v-col>
                 </v-row>
             </v-container>
@@ -65,6 +68,11 @@ export default {
             return index >= 0 ? this.options.whereValues[index] : null;
         }
     },
+    methods: {
+        maxDescriptionLength(v) {
+            return _.max(v.items.map((item) => item.description ? item.description.length : 0));
+        }
+    }
 }
 </script>
 
