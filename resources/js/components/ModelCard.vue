@@ -6,7 +6,7 @@
         <v-card-title>
             {{ value.name }}
         </v-card-title>
-        <v-card-subtitle>
+        <v-card-subtitle style="white-space: pre-line">
             {{ value.description }}
         </v-card-subtitle>
         <v-card-text>

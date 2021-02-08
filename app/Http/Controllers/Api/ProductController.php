@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -13,14 +13,22 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return LengthAwarePaginator
+     * @return Paginator
      */
-    public function index(): LengthAwarePaginator
+    public function index(): Paginator
     {
         request()->merge(
-            ['selectedParameters' => json_decode(request('selectedParameters'), true) ?? []]
+            [
+                'selectedParameters' => json_decode(request('selectedParameters'), true) ?? [],
+                'itemsPerPage' => request('itemsPerPage') && request('itemsPerPage') > 0
+                    ? request('itemsPerPage')
+                    : env('MYSQL_MAX', 1000),
+            ]
         );
-        return Product::query()->requestBuilder()->withCount('warehouseBalances')->paginate(request('itemsPerPage'));
+        return Product::query()
+            ->requestBuilder()
+            ->withCount('warehouseBalances')
+            ->paginate(request('itemsPerPage'));
     }
 
     /**

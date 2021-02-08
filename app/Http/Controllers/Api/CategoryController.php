@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Response;
 use Kalnoy\Nestedset\QueryBuilder;
 
@@ -14,10 +14,17 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return LengthAwarePaginator
+     * @return Paginator
      */
-    public function index(): LengthAwarePaginator
+    public function index(): Paginator
     {
+        request()->merge(
+            [
+                'itemsPerPage' => request('itemsPerPage') && request('itemsPerPage') > 0
+                    ? request('itemsPerPage')
+                    : env('MYSQL_MAX', 1000),
+            ]
+        );
         return Category::query()
             ->requestBuilder()
             ->when(request('isLeaf'), function (QueryBuilder $query) {
