@@ -14,7 +14,9 @@
             <v-slide-item v-slot="{  }" v-for="parameter in parameters" :key="parameter.parameterName.id">
                 <v-card class="ma-2" elevation="4" :key="componentKey" rounded>
                     <v-card-title>
+                        <span v-for="i in spaceQuantity(parameter)" :key="'a' + i">&nbsp</span>
                         {{ parameter.parameterName.name }}
+                        <span v-for="i in spaceQuantity(parameter)" :key="'b' + i">&nbsp</span>
                     </v-card-title>
                     <v-divider/>
                     <v-virtual-scroll
@@ -168,6 +170,12 @@ export default {
         numericValue(value) {
             return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: value.fraction })
                 .format(value.numeric_value)
+        },
+        spaceQuantity(parameter) {
+            const maxLength = _.max(parameter.values.map((v) => v.string_value ? v.string_value.length : 0 ));
+            const baseLength = parameter.parameterName.name.length;
+            if (baseLength >= maxLength) return 0;
+            return  parseInt((maxLength + 1 - baseLength) / 2);
         }
     }
 }

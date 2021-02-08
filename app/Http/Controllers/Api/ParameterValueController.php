@@ -32,6 +32,8 @@ class ParameterValueController extends Controller
                 });
             $p = ParameterValue::whereIn('product_id', $products)
                 ->without('parameterName', 'parameterUnit')
+                ->orderBy('string_value')
+                ->orderBy('numeric_value')
                 ->groupBy($attributes);
                 //->get($attributes);
             return $p->count() === 0 ? $p->toSql() : $p->get($attributes);

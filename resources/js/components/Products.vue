@@ -78,8 +78,8 @@ export default {
                 multiSort: false,
                 groupBy: [],
                 groupDesc: [],
-                sortBy: [],
-                sortDesc: [],
+                sortBy: ['name'],
+                sortDesc: [false]
             },
             this.options,
             this.havingOptions,
