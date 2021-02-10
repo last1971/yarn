@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -13,9 +14,9 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Paginator
+     * @return Paginator|View
      */
-    public function index(): Paginator
+    public function index()
     {
         request()->merge(
             [
@@ -25,19 +26,22 @@ class ProductController extends Controller
                     : env('MYSQL_MAX', 1000),
             ]
         );
-        return Product::query()
+        $response = Product::query()
             ->requestBuilder()
             ->withCount('warehouseBalances')
             ->paginate(request('itemsPerPage'));
+        return request()->has('_escaped_fragment_')
+            ? view('products', [ 'products' => $response ])
+            : $response;
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param ProductRequest $request
-     * @return Product
+     * @return Product|View
      */
-    public function store(ProductRequest $request): Product
+    public function store(ProductRequest $request)
     {
         return Product::create($request->validated());
     }
@@ -46,11 +50,13 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param Product $product
-     * @return Product
+     * @return Product|View
      */
-    public function show(Product $product): Product
+    public function show(Product $product)
     {
-        return $product;
+        return request()->has('_escaped_fragment_')
+            ? view('product', ['product' => $product])
+            : $product;
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Kalnoy\Nestedset\QueryBuilder;
 
@@ -14,9 +15,9 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Paginator
+     * @return Paginator|View
      */
-    public function index(): Paginator
+    public function index()
     {
         request()->merge(
             [
@@ -25,12 +26,15 @@ class CategoryController extends Controller
                     : env('MYSQL_MAX', 1000),
             ]
         );
-        return Category::query()
+        $response = Category::query()
             ->requestBuilder()
             ->when(request('isLeaf'), function (QueryBuilder $query) {
                 $query->whereRaw('_lft +1 = _rgt');
             })
             ->paginate(request('itemsPerPage'));
+        return request()->has('_escaped_fragment_')
+            ? view('categories', [ 'categories' => $response ])
+            : $response;
     }
 
     /**
@@ -52,7 +56,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $category;
+        return request()->has('_escaped_fragment_')
+            ? view('category', ['category' => $category])
+            : $category;
     }
 
     /**

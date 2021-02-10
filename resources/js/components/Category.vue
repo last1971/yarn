@@ -128,6 +128,25 @@ export default {
             // await this.setInstanceId(this.instanceId);
         }
     },
+    metaInfo() {
+        return {
+            title: "Категория " + (this.instance ? this.instance.name : ''),
+            meta: [
+                {name: 'description', content:  this.instance ? this.instance.description : 'Категория товара'},
+                {name: 'og:description', content:  this.instance ? this.instance.description : 'Категория товара'},
+                {name: 'og:type', content: 'website'},
+                {
+                    name: 'og:image',
+                    content: window.location.origin + (
+                        this.instance
+                            ? '/picture/' + this.instance.slug + '/' + this.instance.id + '/'
+                                + ( this.instance.picture ? this.instance.picture.file : '1')
+                            : '/picture/category/category/1'
+                    )
+                }
+            ],
+        }
+    },
 }
 </script>
 

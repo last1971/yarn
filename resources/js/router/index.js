@@ -28,7 +28,7 @@ const routes = [
     },
     {
         name: 'category',
-        path: '/category/:slug/:id',
+        path: '/category/:id/:slug',
         component: Category,
     },
     {
@@ -48,7 +48,7 @@ const routes = [
     },
     {
         name: 'producer',
-        path: '/producer/:slug/:id',
+        path: '/producer/:id/:slug',
         component: Producer,
     },
     {
@@ -58,7 +58,7 @@ const routes = [
     },
     {
         name: 'product',
-        path: '/product/:slug/:id',
+        path: '/product/:id/:slug',
         component: Product,
     },
     {

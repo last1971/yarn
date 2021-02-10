@@ -72,7 +72,15 @@ export default {
         maxDescriptionLength(v) {
             return _.max(v.items.map((item) => item.description ? item.description.length : 0));
         }
-    }
+    },
+    metaInfo() {
+        return this.options.nullAttributes ? {
+            title: "Категории",
+            meta: [
+                {name: 'description', content:  'Категории товаров'}
+            ],
+        } : {}
+    },
 }
 </script>
 

@@ -2,6 +2,8 @@ import vuetify from "./vuetify";
 import router from "./router";
 import store from "./store";
 import Vue from "vue";
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta);
 
 require('./bootstrap');
 

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use \App\Http\Controllers\Api\CategoryController;
+use \App\Http\Controllers\Api\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +15,14 @@ use Illuminate\Support\Facades\Cache;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+if (request()->has('_escaped_fragment_')) {
+    Route::get('/', [ CategoryController::class, 'index' ]);
+    Route::get('/category/{category}/{slug}', [ CategoryController::class, 'show' ])->name('category');
+    Route::get('/category', [ CategoryController::class, 'index' ]);
+    Route::get('/product/{product}/{slug}', [ ProductController::class, 'show' ])->name('product');
+    Route::get('/product', [ ProductController::class, 'index' ]);
+}
 
 Route::get('/avatar/{size}/{avatar}', function (int $size, string $avatar) {
     $path = Storage::exists('public/avatars/' . $avatar )
