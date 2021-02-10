@@ -51,7 +51,7 @@ Route::get('/{path}/{id}/{slug}', function ($path, $id) {
     if (!$model) return abort(404);
     $og = new OpenGraphPackage('og');
     $og->setType($path);
-    $og->setDescription($model->description);
+    $og->setDescription($model->description ? $model->description : $model->name);
     $og->setTitle($model->name);
     $og->setSiteName(env('APP_NAME'));
     $og->setUrl(url()->current());
