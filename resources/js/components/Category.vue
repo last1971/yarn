@@ -128,7 +128,7 @@ export default {
             // await this.setInstanceId(this.instanceId);
         }
     },
-    metaInfo() {
+    /*metaInfo() {
         return {
             title: "Категория " + (this.instance ? this.instance.name : ''),
             meta: [
@@ -146,7 +146,7 @@ export default {
                 }
             ],
         }
-    },
+    },*/
 }
 </script>
 
