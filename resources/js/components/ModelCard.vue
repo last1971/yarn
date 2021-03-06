@@ -2,9 +2,10 @@
     <v-card :to="{ name: routeName, params: { id: value.id, slug: value.slug } }"
             :min-height="minHeight"
             :max-height="minHeight"
+            class="d-flex flex-wrap"
             shaped
     >
-        <v-card-title>
+        <v-card-title class="align-self-start">
             {{ value.name }}
         </v-card-title>
         <v-card-subtitle>
@@ -13,7 +14,7 @@
                 {{ (value.description || '').substring(200 + (i - 1) * 10, 210 + (i - 1) * 10) }}
             </span>
         </v-card-subtitle>
-        <v-card-text>
+        <v-card-text class="align-self-end">
             <v-img :src="'/picture/' + value.slug + '/' + value.id + '/' + ( value.picture ? value.picture.file : '1') "
                    :lazy-src="'/picture/' + value.slug + '/' + value.id + '/' + ( value.picture ? value.picture.file : '1') "
                    :min-height="minHeight / 2"
