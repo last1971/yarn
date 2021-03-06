@@ -1,13 +1,17 @@
 <template>
     <v-card :to="{ name: routeName, params: { id: value.id, slug: value.slug } }"
-            :minHeight="minHeight"
+            :min-height="minHeight"
+            :max-height="minHeight"
             shaped
     >
         <v-card-title>
             {{ value.name }}
         </v-card-title>
-        <v-card-subtitle style="white-space: pre-line">
-            {{ value.description }}
+        <v-card-subtitle>
+            <span>{{ (value.description || '').substring(0, 200) }}</span>
+            <span v-for="i of 5" :key="i" :class="'blurry-text' + i + ' transparent--text'" style="display:inline-block;">
+                {{ (value.description || '').substring(200 + (i - 1) * 10, 210 + (i - 1) * 10) }}
+            </span>
         </v-card-subtitle>
         <v-card-text>
             <v-img :src="'/picture/' + value.slug + '/' + value.id + '/' + ( value.picture ? value.picture.file : '1') "
@@ -20,6 +24,7 @@
 </template>
 
 <script>
+//style="white-space: pre-line"
 import screenMixin from "../mixins/screenMixin";
 
 export default {
@@ -40,5 +45,19 @@ export default {
 </script>
 
 <style scoped>
-
+.blurry-text1 {
+    text-shadow: 0 0 1px rgba(0,0,0,0.5);
+}
+.blurry-text2 {
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+.blurry-text3 {
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+.blurry-text4 {
+    text-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+.blurry-text5 {
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
 </style>
