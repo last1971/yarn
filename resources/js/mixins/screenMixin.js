@@ -11,9 +11,9 @@ export default {
         },
         minHeight () {
             switch (this.$vuetify.breakpoint.name) {
-                case 'xs': return 530
-                case 'sm': return 550
-                case 'md': return 600
+                case 'xs': return 575
+                case 'sm': return 600
+                case 'md': return 625
                 case 'lg': return 650
                 case 'xl': return 700
             }
