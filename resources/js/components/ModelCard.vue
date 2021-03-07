@@ -5,7 +5,7 @@
             class="d-flex flex-wrap"
             shaped
     >
-        <v-card-title class="align-self-start">
+        <v-card-title class="align-self-start" style="white-space: pre-line">
             {{ value.name }}&nbsp;
         </v-card-title>
         <v-card-subtitle>
