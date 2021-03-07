@@ -6,12 +6,12 @@
             shaped
     >
         <v-card-title class="align-self-start">
-            {{ value.name }}
+            {{ value.name }}&nbsp;
         </v-card-title>
         <v-card-subtitle>
-            <span>{{ (value.description || '').substring(0, 200) }}</span>
+            <span>{{ getPartText(0) }}</span>
             <span v-for="i of 5" :key="i" :class="'blurry-text' + i + ' transparent--text'" style="display:inline-block;">
-                {{ (value.description || '').substring(200 + (i - 1) * 10, 210 + (i - 1) * 10) }}
+                {{ getPartText(i) }}&nbsp;
             </span>
         </v-card-subtitle>
         <v-card-text class="align-self-end">
@@ -36,10 +36,31 @@ export default {
         routeName: { type: String, required: true },
         maxDescriptionLength: { type: Number, default: 200 },
     },
-    computed: {
-        spaces() {
-            const length = this.maxDescriptionLength - (this.value.description ? this.value.description.length : 0);
-            return _.repeat('&nbsp;', length);
+    data() {
+        return {
+            maxLength: 200,
+            stepLength: 15,
+        }
+    },
+    methods: {
+        getPartText(n) {
+            const baseString = this.value.description || '';
+            let returnString = baseString;
+            let start = 0;
+            let end = this.maxLength > baseString.length ? baseString.length : this.maxLength;
+            // if (this.value.name === 'Dr. Davon Mertz II') debugger
+            for (let i=0; i <= n; i++) {
+                if (baseString.length + n * this.stepLength  <= end) {
+                    // console.log(start,end);
+                    return baseString.substring(start, end);
+                }
+                const spaceIndex = baseString.indexOf(' ', end);
+                // console.log(start, end, spaceIndex, baseString.substr(0, 10), n, returnString.substr(0, 10));
+                returnString = baseString.substring(start, spaceIndex > 0 ? spaceIndex : end);
+                start = spaceIndex > 0 ? spaceIndex : end;
+                end += this.stepLength;
+            }
+            return returnString;
         }
     }
 }
