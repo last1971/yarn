@@ -82,4 +82,12 @@ const router = new VueRouter({
     routes
 });
 
+router.afterEach((to, from) => {
+    // console.log(to.fullPath, window.location.origin + from.path);
+    ym(72254152, 'hit', to.fullPath, {
+        // title: 'Контактная информация',
+        referer: window.location.origin + from.path
+    });
+});
+
 export default router;

@@ -30,6 +30,7 @@
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(72254152, "init", {
+            defer: true,
             clickmap:true,
             trackLinks:true,
             accurateTrackBounce:true
