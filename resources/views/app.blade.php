@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="//code-ya.jivosite.com/widget/ObUXoXZJTR" async></script>
 </head>
 <body>
     <div id="app">
