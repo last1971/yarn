@@ -63,7 +63,7 @@ export default {
         return {
             model: 'product',
             havingOptions: {
-                havingAttributes: ['warehouse_balances_count'],
+                havingAttributes: ['warehouse_balances_sum_balance'],
                 havingOperators: ['>'],
                 havingValues: [0],
             }

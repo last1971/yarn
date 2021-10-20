@@ -29,6 +29,7 @@ class ProductController extends Controller
         $response = Product::query()
             ->requestBuilder()
             ->withCount('warehouseBalances')
+            ->withSum('warehouseBalances', 'balance')
             ->paginate(request('itemsPerPage'));
         return request()->has('_escaped_fragment_')
             ? view('products', [ 'products' => $response ])
